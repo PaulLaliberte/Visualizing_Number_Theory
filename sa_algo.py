@@ -32,8 +32,13 @@ class sa_algo:
             raise Exception('p is not prime')
 
     def find_ed(self):
-        #already defined - update later
-        pass
+        var = 1 + self.y
+        if var % self.p != 0:
+            self.e_d = 0
+        else:
+            e_r = self.r / self.p
+            e_x = self.x / self.p
+            self.e_bp, self.e_dp = min([e_r, e_x])
 
     def find_ebp_edp(self):
         #already defined - update later
