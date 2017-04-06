@@ -88,8 +88,8 @@ class sa_algo:
         arr = [i for i in range(0, mod)] 
 
         for d in arr:
-            eqn1 = (d * left1 - right1)
-            eqn2 = (d * left2 - right2) 
+            eqn1 = d * left1 - right1
+            eqn2 = d * left2 - right2
             if eqn1 % mod == 0 and eqn2 % mod == 0:
                 self.d = d
                 break
@@ -106,8 +106,8 @@ class sa_algo:
         arr = [i for i in range(0, mod)]
 
         for bp in arr:
-            eqn1 = (bp * left1 - right1)
-            eqn2 = (bp * left2 - right2)
+            eqn1 = bp * left1 - right1
+            eqn2 = bp * left2 - right2
             if eqn1 % mod == 0 and eqn2 % mod == 0:
                 self.b_p = bp
                 break

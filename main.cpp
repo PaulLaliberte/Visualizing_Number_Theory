@@ -18,6 +18,13 @@ void allegro_code()
 void find_matrix(sa_algo *some_circle)
 {
     some_circle->find_ed();
+    some_circle->find_ebp_edp();
+    some_circle->find_dp();
+    some_circle->find_d();
+    some_circle->find_bp();
+    some_circle->find_points();
+    some_circle->find_circle_matrix();
+
     
     //add other setter functions
 }
@@ -26,11 +33,17 @@ void get_variables(sa_algo *some_circle)
 {
     
     //print out variables to test:
-    some_circle->get_initial_variables();
-    std::cout << "" << std::endl;
-    some_circle->get_ed();
+
+    //some_circle->get_initial_variables();
+    //std::cout << "" << std::endl;
+    //some_circle->get_ed();
+    //some_circle->get_ebp_edp();
+    //some_circle->get_dp();
+    //some_circle->get_d();
+    //some_circle->get_bp();
+    //some_circle->get_points();
+    some_circle->get_circle_matrix();
     
-    //add other getter functions
 }
 
 int main()
@@ -58,6 +71,18 @@ int main()
     
     find_matrix(circle);
     get_variables(circle);
+
+    try
+    {
+        circle->check_circle_equivalence();
+    }
+    catch (const std::invalid_argument& e)
+    {
+        std::cout << "Try entering values again." << std::endl;
+        return 0;
+    }
+
+
     
     return 0;
 }

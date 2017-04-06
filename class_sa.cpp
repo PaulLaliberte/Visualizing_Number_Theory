@@ -15,7 +15,9 @@ sa_algo::sa_algo()
     
     std::cout << "Enter radius, x_coor, y_coor, prime: ";
     std::cin >> radius >> x_coor >> y_coor >> prime;
-    
+
+    delta = -1;
+    //change later to accept values if needed
 }
 
 bool sa_algo::isPrime(int var)
@@ -77,44 +79,152 @@ void sa_algo::find_ed()
 
 void sa_algo::find_ebp_edp()
 {
-    //add code
+    if (y_coor % prime != 0)
+    {
+        e_bp = 0;
+        e_dp = 0;
+    }
+    else
+    {
+        int e_r = radius / prime;
+        int e_x = x_coor / prime;
+        e_bp = std::min(e_r, e_x);
+        e_dp = e_bp;
+    }
 }
 
 void sa_algo::find_dp()
 {
-    //add code
+    int iterations = radius / prime;
+    int p_to_edp = std::pow(prime, e_dp);
+    while (iterations > 1)
+    {
+        p_to_edp = p_to_edp * p_to_edp;
+        iterations = iterations - 1;
+    }
+
+    d_p = p_to_edp;
+    
 }
 
 void sa_algo::find_d()
 {
-    //add code
+    int left1 = y_coor;
+    int right1 = -d_p * x_coor;
+
+    int left2 = x_coor;
+    int right2 = d_p * (1 + y_coor);
+
+    int mod = std::pow(prime, radius / prime);
+
+    int arr[mod];
+    for (int i=0; i < mod; i++)
+    {
+        arr[i] = i;
+    }
+
+    for (int d_=0; d_ < mod; d_++)
+    {
+        int eqn1 = d_ * left1 - right1;
+        int eqn2 = d_ * left2 - right2;
+
+        if (eqn1 %  mod == 0 && eqn2 % mod == 0)
+        {
+            d = d_;
+            break;
+        }
+    }
 }
 
 void sa_algo::find_bp()
 {
-    //add code
+    int left1 = d * y_coor + d_p * x_coor;
+    int right1 = -radius * y_coor;
+
+    int left2 = d * x_coor - d_p * (1 + y_coor);
+    int right2 = -radius * x_coor;
+
+    int mod = std::pow(prime, radius / prime + e_dp);
+    
+    int arr[mod];
+    for (int i=0; i < mod; i++)
+    {
+        arr[i] = i;
+    }
+
+    for (int bp=0; bp < mod; bp++)
+    {
+        int eqn1 = bp * left1 - right1;
+        int eqn2 = bp * left2 - right2;
+
+        if (eqn1 % mod == 0 && eqn2 % mod == 0)
+        {
+            b_p = bp;
+            break;
+        }
+    }
+
 }
 
 void sa_algo::find_points()
 {
-    //add code
+    b = (radius + b_p * d) / d_p;
+    a = (b * x_coor - b_p * (1 + y_coor)) / radius;
+    a_p = (b * y_coor + b_p * x_coor) / radius;
+    c = (d * x_coor - d_p * (1 + y_coor)) / radius;
+    c_p = (d_p * x_coor + d * y_coor) / radius;
 }
 
 void sa_algo::find_circle_matrix()
 {
-    //NOTE: requires a complex numbers package, add a linear alg. package
-    //      to make things easier (could do the lin. alg. on own if wanted)
+    std::complex<int> a_11(a, a_p);
+    std::complex<int> a_12(c, c_p);
+    std::complex<int> a_21(b, b_p);
+    std::complex<int> a_22(d, d_p);
+
+    //MatrixXcf X(2,2); //How to declare a complex matrix
+    //X(0,0) = a_11;    //How to assign to complex matrix=
+
+    A[0][0] = a_11;
+    A[0][1]= a_12;
+    A[1][0] = a_21;
+    A[1][1] = a_22;
+
+}
+
+int sa_algo::check_circle_equivalence()
+{
+    std::tuple<int, int, int> coordinates;
+    coordinates = std::make_tuple(radius, x_coor, y_coor);
+
+    if (delta == -1)
+    {
+        std::tuple<int, int, int> check;
+        check = std::make_tuple(b * d_p - b_p * d, b * c_p - a_p * d, a_p * d_p - b_p * c_p);
+
+        if (check != coordinates)
+        {
+            throw std::invalid_argument("Matrix not valid - error occurred");
+        }
+    }
+    else
+    {
+        std::tuple<int, int, int> check;
+        check = std::make_tuple(b_p * d - b * d_p, a_p * d - b * c_p, b * c - a * d);
+
+        if (check != coordinates)
+        {
+            throw std::invalid_argument("Matrix not valid - error occurred");
+        }
     
-    //add code
+    }
+
+    return 0;
+
 }
 
 
-
 //getter methods
-
-//ive set these up to just be able to check that the input is what we
-//want -- in the final code these would be used to get a circles specific
-//value when click/hover over a circle in Chloe's allegro
 void sa_algo::get_initial_variables()
 {
     std::cout << "radius: " << radius << std::endl;
@@ -131,41 +241,46 @@ void sa_algo::get_ed()
 
 void sa_algo::get_ebp_edp()
 {
-    //add code
+    std::cout << "e_bp: " << e_bp << std::endl;
+    std::cout << "e_dp: " << e_dp << std::endl;
 }
 
 void sa_algo::get_dp()
 {
-    //add code
+    std::cout << "d_p: " << d_p << std::endl;
 }
 
 void sa_algo::get_d()
 {
-    //add code
+    std::cout << "d: " << d << std::endl;
 }
 
 void sa_algo::get_bp()
 {
-    //add code
+    std::cout << "b_p: " << b_p << std::endl;
 }
 
 void sa_algo::get_points()
 {
-    //add code
+    std::cout << "\n" << std::endl;
+    std::cout << "b: " << b << std::endl;
+    std::cout << "a: " << a << std::endl;
+    std::cout << "a_p: " << a_p << std::endl;
+    std::cout << "c: " << c << std::endl;
+    std::cout << "c_p: " << c_p << std::endl;
 }
 
 void sa_algo::get_circle_matrix()
 {
-    //add code
+    std::cout << '\n' << "Matrix: (real, imag)" << std::endl;
+    std::cout << '(' << A[0][0] << A[0][1] << std::endl;
+    std::cout << A[1][0] << A[1][1] << ')' << std::endl;
 }
 
 
 
 //deconstructor
-sa_algo::~sa_algo()
-{
-    //delete pointers...
-}
+sa_algo::~sa_algo() {}
 
 
 

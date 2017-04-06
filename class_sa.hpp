@@ -10,8 +10,11 @@
 #include <iostream>
 #include <algorithm>
 #include <cmath>
-//linear algebra package for matrix - several options
-//complex numbers package for matrix and bp - several options
+#include <tuple>
+//#include <Eigen/Dense>  //<-- use if matrix mul/add is needed
+#include <complex>
+
+//using namespace Eigen;  //uncomment if using Eigen
 
 #ifndef class_sa_hpp
 #define class_sa_hpp
@@ -20,19 +23,23 @@ class sa_algo
 {
 private:
     //initial variables
-    int radius, x_coor, y_coor, prime;
+    int radius, x_coor, y_coor, prime, delta;
     
     //e_d, e_bp, e_dp
     int e_d, e_bp, e_dp;
+
+    //d_p
+    int d_p;
     
     //d, bp
-    int d, bp;
+    int d, b_p;
     
     //points to find
-    int a, b, ap, c, cp;
+    int a, b, a_p, c, c_p;
     
-    //matrix
-    
+    //matrix (store variables in array)
+    std::complex<int> A[2][2];
+
 public:
     //constructor
     sa_algo();
@@ -40,6 +47,7 @@ public:
     //check conditions
     bool isPrime(int var);
     int check_conditions();
+    int check_circle_equivalence();
     
     //setter methods
     void find_ed();
@@ -59,7 +67,6 @@ public:
     void get_bp();
     void get_points();
     void get_circle_matrix();
-    //void get_dp();
     
     //destructor
     ~sa_algo();
