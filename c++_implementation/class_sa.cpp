@@ -12,14 +12,22 @@
 //constructor
 sa_algo::sa_algo()
 {
-    
     std::cout << "Enter radius, x_coor, y_coor, prime: ";
-    std::cin >> radius >> x_coor >> y_coor >> prime;
+    std::cin >> new_info -> radius >> new_info -> x_coor >> new_info -> y_coor >> new_info -> prime;
 
-    delta = -1;
+    new_info -> delta = -1;
+
+    /*
+    new_info = new Info;
+    new_info -> radius = r;
+    new_info -> x_coor = x;
+    new_info -> y_coor = y;
+    new_info -> delta = -1;
+    */
     //change later to accept values if needed
 }
 
+/*
 bool sa_algo::isPrime(int var)
 {
     bool prime_check = true;
@@ -58,64 +66,66 @@ int sa_algo::check_conditions()
     
     return 0;
 }
+*/
 
 
 //setter methods
 void sa_algo::find_ed()
 {
-    int var = 1 + y_coor;
-    if (var % prime != 0)
+    int var = 1 + new_info -> y_coor;
+    std::cout << var << std::endl;
+    if (var % (new_info -> prime) != 0)
     {
-        e_d = 0;
+        new_info -> e_d = 0;
     }
     else
     {
-        int e_r = radius / prime;
-        int e_x = x_coor / prime;
-        e_d = std::min(e_r, e_x);
+        int e_r = (new_info -> radius) / (new_info -> prime);
+        int e_x = (new_info -> x_coor) / (new_info -> prime);
+        new_info -> e_d = std::min(e_r, e_x);
         
     }
 }
 
 void sa_algo::find_ebp_edp()
 {
-    if (y_coor % prime != 0)
+    if ((new_info -> y_coor) % (new_info -> prime) != 0)
     {
-        e_bp = 0;
-        e_dp = 0;
+        new_info -> e_bp = 0;
+        new_info -> e_dp = 0;
     }
     else
     {
-        int e_r = radius / prime;
-        int e_x = x_coor / prime;
-        e_bp = std::min(e_r, e_x);
-        e_dp = e_bp;
+        int e_r = (new_info -> radius) / (new_info -> prime);
+        int e_x = (new_info -> x_coor) / (new_info -> prime);
+        new_info -> e_bp = std::min(e_r, e_x);
+        new_info -> e_dp = new_info -> e_bp;
     }
 }
 
 void sa_algo::find_dp()
 {
-    int iterations = radius / prime;
-    int p_to_edp = std::pow(prime, e_dp);
+    int iterations = (new_info -> radius) / (new_info -> prime);
+    int p_to_edp = std::pow(new_info -> prime, new_info -> e_dp);
     while (iterations > 1)
     {
         p_to_edp = p_to_edp * p_to_edp;
         iterations = iterations - 1;
     }
 
-    d_p = p_to_edp;
+    new_info -> d_p = p_to_edp;
     
 }
 
 void sa_algo::find_d()
 {
-    int left1 = y_coor;
-    int right1 = -d_p * x_coor;
+    int left1 = new_info -> y_coor;
+    int right1 = -(new_info -> d_p) * (new_info -> x_coor);
 
-    int left2 = x_coor;
-    int right2 = d_p * (1 + y_coor);
+    int left2 = new_info -> x_coor;
+    int right2 = (new_info -> d_p) * (1 + (new_info -> y_coor));
 
-    int mod = std::pow(prime, radius / prime);
+    int mod = std::pow(new_info -> prime, (new_info -> radius) / (new_info -> prime));
 
     int arr[mod];
     for (int i=0; i < mod; i++)
@@ -130,7 +140,7 @@ void sa_algo::find_d()
 
         if (eqn1 %  mod == 0 && eqn2 % mod == 0)
         {
-            d = d_;
+            new_info -> d = d_;
             break;
         }
     }
@@ -138,13 +148,13 @@ void sa_algo::find_d()
 
 void sa_algo::find_bp()
 {
-    int left1 = d * y_coor + d_p * x_coor;
-    int right1 = -radius * y_coor;
+    int left1 = (new_info -> d) * (new_info -> y_coor) + (new_info -> d_p) * (new_info -> x_coor);
+    int right1 = -(new_info -> radius) * (new_info -> y_coor);
 
-    int left2 = d * x_coor - d_p * (1 + y_coor);
-    int right2 = -radius * x_coor;
+    int left2 = (new_info -> d) * (new_info -> x_coor) - (new_info -> d_p) * (1 + (new_info -> y_coor));
+    int right2 = -(new_info -> radius) * (new_info -> x_coor);
 
-    int mod = std::pow(prime, radius / prime + e_dp);
+    int mod = std::pow(new_info -> prime, (new_info -> radius) / ((new_info -> prime) + (new_info -> e_dp)));
     
     int arr[mod];
     for (int i=0; i < mod; i++)
@@ -159,7 +169,7 @@ void sa_algo::find_bp()
 
         if (eqn1 % mod == 0 && eqn2 % mod == 0)
         {
-            b_p = bp;
+            new_info -> b_p = bp;
             break;
         }
     }
@@ -168,30 +178,31 @@ void sa_algo::find_bp()
 
 void sa_algo::find_points()
 {
-    b = (radius + b_p * d) / d_p;
-    a = (b * x_coor - b_p * (1 + y_coor)) / radius;
-    a_p = (b * y_coor + b_p * x_coor) / radius;
-    c = (d * x_coor - d_p * (1 + y_coor)) / radius;
-    c_p = (d_p * x_coor + d * y_coor) / radius;
+    new_info -> b = ((new_info -> radius) + (new_info -> b_p) * (new_info -> d)) / (new_info -> d_p);
+    new_info -> a = ((new_info -> b) * (new_info -> x_coor) - (new_info -> b_p) * (1 + (new_info -> y_coor))) / (new_info -> radius);
+    new_info -> a_p = ((new_info -> b) * (new_info -> y_coor) + (new_info -> b_p) * (new_info -> x_coor)) / (new_info -> radius);
+    new_info -> c = ((new_info -> d) * (new_info -> x_coor) - (new_info -> d_p) * (1 + (new_info -> y_coor))) / (new_info -> radius);
+    new_info -> c_p = ((new_info -> d_p) * (new_info -> x_coor) + (new_info -> d) * (new_info -> y_coor)) / (new_info -> radius);
 }
 
 void sa_algo::find_circle_matrix()
 {
-    std::complex<int> a_11(a, a_p);
-    std::complex<int> a_12(c, c_p);
-    std::complex<int> a_21(b, b_p);
-    std::complex<int> a_22(d, d_p);
+    std::complex<int> a_11(new_info -> a, new_info -> a_p);
+    std::complex<int> a_12(new_info -> c, new_info -> c_p);
+    std::complex<int> a_21(new_info -> b, new_info -> b_p);
+    std::complex<int> a_22(new_info -> d, new_info -> d_p);
 
     //MatrixXcf X(2,2); //How to declare a complex matrix
     //X(0,0) = a_11;    //How to assign to complex matrix=
 
-    A[0][0] = a_11;
-    A[0][1]= a_12;
-    A[1][0] = a_21;
-    A[1][1] = a_22;
+    new_info -> A[0][0] = a_11;
+    new_info -> A[0][1]= a_12;
+    new_info -> A[1][0] = a_21;
+    new_info -> A[1][1] = a_22;
 
 }
 
+/*
 int sa_algo::check_circle_equivalence()
 {
     std::tuple<int, int, int> coordinates;
@@ -222,59 +233,59 @@ int sa_algo::check_circle_equivalence()
     return 0;
 
 }
-
+*/
 
 //getter methods
 void sa_algo::get_initial_variables()
 {
-    std::cout << "radius: " << radius << std::endl;
-    std::cout << "x-coordinate: " << x_coor << std::endl;
-    std::cout << "y-coordinate: " << y_coor << std::endl;
-    std::cout << "prime: " << prime << std::endl;
+    std::cout << "radius: " << new_info -> radius << std::endl;
+    std::cout << "x-coordinate: " << new_info -> x_coor << std::endl;
+    std::cout << "y-coordinate: " << new_info -> y_coor << std::endl;
+    std::cout << "prime: " << new_info -> prime << std::endl;
 }
 
 
 void sa_algo::get_ed()
 {
-    std::cout << "e_d: " << e_d << std::endl;
+    std::cout << "e_d: " << new_info -> e_d << std::endl;
 }
 
 void sa_algo::get_ebp_edp()
 {
-    std::cout << "e_bp: " << e_bp << std::endl;
-    std::cout << "e_dp: " << e_dp << std::endl;
+    std::cout << "e_bp: " << new_info -> e_bp << std::endl;
+    std::cout << "e_dp: " << new_info -> e_dp << std::endl;
 }
 
 void sa_algo::get_dp()
 {
-    std::cout << "d_p: " << d_p << std::endl;
+    std::cout << "d_p: " << new_info -> d_p << std::endl;
 }
 
 void sa_algo::get_d()
 {
-    std::cout << "d: " << d << std::endl;
+    std::cout << "d: " << new_info -> d << std::endl;
 }
 
 void sa_algo::get_bp()
 {
-    std::cout << "b_p: " << b_p << std::endl;
+    std::cout << "b_p: " << new_info -> b_p << std::endl;
 }
 
 void sa_algo::get_points()
 {
     std::cout << "\n" << std::endl;
-    std::cout << "b: " << b << std::endl;
-    std::cout << "a: " << a << std::endl;
-    std::cout << "a_p: " << a_p << std::endl;
-    std::cout << "c: " << c << std::endl;
-    std::cout << "c_p: " << c_p << std::endl;
+    std::cout << "b: " << new_info -> b << std::endl;
+    std::cout << "a: " << new_info -> a << std::endl;
+    std::cout << "a_p: " << new_info -> a_p << std::endl;
+    std::cout << "c: " << new_info -> c << std::endl;
+    std::cout << "c_p: " << new_info -> c_p << std::endl;
 }
 
 void sa_algo::get_circle_matrix()
 {
     std::cout << '\n' << "Matrix: (real, imag)" << std::endl;
-    std::cout << '(' << A[0][0] << A[0][1] << std::endl;
-    std::cout << A[1][0] << A[1][1] << ')' << std::endl;
+    std::cout << '(' << new_info -> A[0][0] << new_info -> A[0][1] << std::endl;
+    std::cout << new_info -> A[1][0] << new_info -> A[1][1] << ')' << std::endl;
 }
 
 

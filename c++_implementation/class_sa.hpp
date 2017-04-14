@@ -6,9 +6,17 @@
 //  Copyright © 2017 Paul Laliberte. All rights reserved.
 //
 
-#include <stdexcept>
 #include <iostream>
+
+ /*
+#include "allegro5/allegro.h"
+#include "allegro5/allegro_native_dialog.h"
+#include "allegro5/allegro_primitives.h"
+*/
+
+#include <stdexcept>
 #include <algorithm>
+#include <vector>
 #include <cmath>
 #include <tuple>
 //#include <Eigen/Dense>  //<-- use if matrix mul/add is needed
@@ -22,32 +30,37 @@
 class sa_algo
 {
 private:
-    //initial variables
-    int radius, x_coor, y_coor, prime, delta;
+    struct Info
+    {
+        //initial variables
+        int radius, x_coor, y_coor, prime, delta;
     
-    //e_d, e_bp, e_dp
-    int e_d, e_bp, e_dp;
+        //e_d, e_bp, e_dp
+        int e_d, e_bp, e_dp;
 
-    //d_p
-    int d_p;
+        //d_p
+        int d_p;
     
-    //d, bp
-    int d, b_p;
+        //d, bp
+        int d, b_p;
     
-    //points to find
-    int a, b, a_p, c, c_p;
+        //points to find
+        int a, b, a_p, c, c_p;
     
-    //matrix (store variables in array)
-    std::complex<int> A[2][2];
+        //matrix (store variables in array)
+        std::complex<int> A[2][2];
+    };
+
+    Info *new_info;
 
 public:
     //constructor
     sa_algo();
     
     //check conditions
-    bool isPrime(int var);
-    int check_conditions();
-    int check_circle_equivalence();
+    //bool isPrime(int var);
+    //int check_conditions();
+    //int check_circle_equivalence();
     
     //setter methods
     void find_ed();

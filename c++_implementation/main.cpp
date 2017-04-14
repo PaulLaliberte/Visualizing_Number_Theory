@@ -52,6 +52,9 @@ int main()
     sa_algo new_circle;
     sa_algo *circle;
     circle = &new_circle;
+
+    find_matrix(circle);
+    get_variables(circle);
     
     //this is fine also (but change the print_variables function input too!):
     //sa_algo a_circle;
@@ -59,6 +62,7 @@ int main()
     
     
     //catch exceptions - do not change
+    /*
     try
     {
         circle->check_conditions();
@@ -81,6 +85,7 @@ int main()
         std::cout << "Try entering values again." << std::endl;
         return 0;
     }
+    */
 
 
     

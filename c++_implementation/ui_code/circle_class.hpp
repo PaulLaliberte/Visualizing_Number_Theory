@@ -20,9 +20,9 @@ private:
     struct Info
     {
         //t is an arbitrary type (int, float, char, ect.)
-        float radius;
-        float x_coor;
-        float y_coor;
+        int radius;
+        int x_coor;
+        int y_coor;
         vector<vector<float> > matrix;
     };
 
@@ -31,7 +31,7 @@ private:
 public:
     //constructor
     Circle();
-    Circle(float r, float x, float y);
+    Circle(int r, int x, int y);
     //methods
     void set_info();
     float get_radius();

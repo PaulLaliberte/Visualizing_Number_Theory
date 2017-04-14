@@ -5,6 +5,23 @@
 
 using namespace std;
 
+int isPrime(int num)
+{
+    int prime_number = -1;
+
+    for (int i=2; i < num; i++)
+    {
+        if (num % i == 0)
+        {
+            prime_number = i;
+            return prime_number;
+        }
+    }
+        
+    return prime_number;
+}
+
+
 CircleGroup::CircleGroup() {
 
     x = 0;
@@ -17,7 +34,12 @@ CircleGroup::CircleGroup() {
                     float xcoor = 700*(2*s)/(2*r);
                     float ycoor = 700*(2*t-1)/(2*r);
                     float radi = 700*1/(2*r);
-                    circles.push_back(Circle(radi, xcoor, ycoor));
+                    int prime = isPrime(radi);
+                    if (prime == -1)
+                    {
+                        throw std::invalid_argument("The condition (1) does not hold.");
+                    }
+                    circles.push_back(Circle(radi, xcoor, ycoor, prime));
                 }
             }
         }

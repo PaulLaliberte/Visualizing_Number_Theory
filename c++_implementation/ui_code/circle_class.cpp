@@ -9,7 +9,7 @@ Circle::Circle(){
 
 }
 
-Circle::Circle(float r, float x, float y) {
+Circle::Circle(int r, int x, int y) {
 
     new_info = new Info;
 
