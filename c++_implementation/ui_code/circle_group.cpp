@@ -1,26 +1,10 @@
+
 //  circle_group.cpp
 //  circle_group
 
 #include "circle_group.hpp"
 
 using namespace std;
-
-int isPrime(int num)
-{
-    int prime_number = -1;
-
-    for (int i=2; i < num; i++)
-    {
-        if (num % i == 0)
-        {
-            prime_number = i;
-            return prime_number;
-        }
-    }
-        
-    return prime_number;
-}
-
 
 CircleGroup::CircleGroup() {
 
@@ -34,14 +18,7 @@ CircleGroup::CircleGroup() {
                     float xcoor = 700*(2*s)/(2*r);
                     float ycoor = 700*(2*t-1)/(2*r);
                     float radi = 700*1/(2*r);
-                    int prime = isPrime(radi);
-
-                    //add exception here
-                    if (prime == -1)
-                    {
-                        cout << "not prime" << endl;
-                    }
-                    circles.push_back(Circle(radi, xcoor, ycoor, prime));
+                    circles.push_back(Circle(radi, xcoor, ycoor, 10));
                 }
             }
         }
@@ -112,7 +89,7 @@ void CircleGroup::zoom(float x1, float x2, float y1, float y2){
                     float ycoor = (700/dist)*(2*t-1)/(2*r)-700*y1/dist;
                     float radi = (700/dist)*1/(2*r);
                     if(xcoor + radi > x1 or xcoor - radi < x2 or ycoor + radi > y1 or ycoor - radi < y2){
-                        circles.push_back(Circle(radi, xcoor, ycoor));
+                        circles.push_back(Circle(radi, xcoor, ycoor, 10));
                     }
                 }
             }
@@ -155,3 +132,4 @@ CircleGroup::~CircleGroup() {
         circles.pop_back();
     }
 }
+
