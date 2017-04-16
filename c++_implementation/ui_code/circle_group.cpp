@@ -35,9 +35,11 @@ CircleGroup::CircleGroup() {
                     float ycoor = 700*(2*t-1)/(2*r);
                     float radi = 700*1/(2*r);
                     int prime = isPrime(radi);
+
+                    //add exception here
                     if (prime == -1)
                     {
-                        throw std::invalid_argument("The condition (1) does not hold.");
+                        cout << "not prime" << endl;
                     }
                     circles.push_back(Circle(radi, xcoor, ycoor, prime));
                 }

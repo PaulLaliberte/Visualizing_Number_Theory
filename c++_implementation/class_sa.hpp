@@ -30,32 +30,28 @@
 class sa_algo
 {
 private:
-    struct Info
-    {
-        //initial variables
-        int radius, x_coor, y_coor, prime, delta;
-    
-        //e_d, e_bp, e_dp
-        int e_d, e_bp, e_dp;
+    //initial variables
+    int radius, x_coor, y_coor, prime, delta;
 
-        //d_p
-        int d_p;
-    
-        //d, bp
-        int d, b_p;
-    
-        //points to find
-        int a, b, a_p, c, c_p;
-    
-        //matrix (store variables in array)
-        std::complex<int> A[2][2];
-    };
+    //e_d, e_bp, e_dp
+    int e_d, e_bp, e_dp;
 
-    Info *new_info;
+    //d_p
+    int d_p;
+    
+    //d, bp
+    int d, b_p;
+    
+    //points to find
+    int a, b, a_p, c, c_p;
+    
+    //matrix (store variables in array)
+    std::complex<int> A[2][2];
+
 
 public:
     //constructor
-    sa_algo();
+    sa_algo(int r, int x, int y);
     
     //check conditions
     //bool isPrime(int var);
